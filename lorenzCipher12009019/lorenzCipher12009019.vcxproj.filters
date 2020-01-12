@@ -24,13 +24,16 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="convertMessageBaudot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="lorenzWheel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="inputMessageAscii.h">
+    <ClInclude Include="lorenzMachine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="baudotEncoding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,16 +41,19 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lorenzCipher12009019.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="convertMessageBaudot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="lorenzWheel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="inputMessageAscii.cpp">
+    <ClCompile Include="lorenzMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="baudotEncoding.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="input.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,0 +1,5 @@
+﻿LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
+  Generating code
+  All 511 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  lorenzCipher12009019.vcxproj -> E:\Lorenz-Cipher-Machine\Release\lorenzCipher.exe
