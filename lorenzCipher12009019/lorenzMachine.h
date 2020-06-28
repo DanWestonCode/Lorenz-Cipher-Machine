@@ -10,7 +10,7 @@ public:
 	lorenzMachine();
 	~lorenzMachine();
 	
-	void process(std::string);
+	void process(const std::string&);
 
 private:
 	lorenzWheel psi[5];
@@ -21,7 +21,7 @@ private:
 	std::string pinSettings = "";
 	int fileOffset = 0;
 
-	std::string* encrypt(std::string*, int);
+	void encrypt(const std::vector<std::string>&, std::vector<std::string>&);
 	void configureWheel(lorenzWheel wheel[], int wheelSize[], int size);		
 };
 

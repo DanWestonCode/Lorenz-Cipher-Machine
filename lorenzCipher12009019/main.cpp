@@ -7,38 +7,37 @@
 #include <vector>
 #include <string>
 
-using namespace std;
 int _tmain(int argc, _TCHAR* argv[])
 {
-	lorenzMachine* machine = new lorenzMachine();	
-	input* keyin = new input();
+	lorenzMachine machine;
+	input keyin;
 
 	char menuOption;
 
 	do 
 	{
-		cout << "Lorenz Cipher Machine v1.1" << endl;
-		cout <<"\t1. Encrypt/Decrypt message" <<endl;
-		cout <<"\t2. Exit" <<endl;			
+		std::cout << "Lorenz Cipher Machine v1.1" << std::endl;
+		std::cout <<"\t1. Encrypt/Decrypt message" <<std::endl;
+		std::cout <<"\t2. Exit" <<std::endl;			
 
-		string in = keyin->get();
+		std::string in = keyin.get();
 		menuOption = in[0];
 
 		switch (menuOption)
 		{				
 		case '1':
-			cout << "Enter message for encyrption (\"a-z *,-!.\"): ";
-			machine->process(keyin->get());
+			std::cout << "Enter message for encyrption (\"a-z *,-!.\"): ";
+			machine.process(keyin.get());
 			break;
 		case '2':
-			cout << "Bye!" << endl;
+			std::cout << "Bye!" << std::endl;
 			break;
 		default:			
-			cout << "\"" << in << "\" is not a valid option" << endl;
+			std::cout << "\"" << in << "\" is not a valid option" << std::endl;
 			break;
 		}
 	
-	}while(menuOption != '2');
+	} while(menuOption != '2');
 
 	return 0; 
 }

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "baudotEncoding.h"
-
-#include <exception>
+#include <iostream>
 
 baudotEncoding::baudotEncoding ()
 {	
@@ -80,38 +79,30 @@ baudotEncoding::~baudotEncoding ()
 /**
  * Take input and convert each character into 5 bit baudot code
  */
-string* baudotEncoding:: encode(string input)
-{
-	int size = input.length();
-	string* encoded;
-	encoded = new string[size];
-
-	for (int i = 0, counti = input.length(); i < counti; i++)
+void baudotEncoding::encode(const std::string& in, std::vector<std::string>& out)
+{	
+	for (int i = 0, counti = in.length(); i < counti; ++i)
 	{
-		if (encoding.count(input[i]))
+		if (encoding.count(in[i]))
 		{
-			encoded[i] = encoding[input[i]];
+			out.push_back(encoding[in[i]]);
 		}
 		else
 		{
-			cout << input[i] << " is an invalid key" << endl;
-			encoded[i] = encoding['*'];
+			std::cout << in[i] << " is an invalid key" << std::endl;
+			out.push_back(encoding['*']);
 		}
 	}
-
-	return encoded;
 }
 
 /**
  * Take input and convert each character 
   (5 bit baudot code) back into alphabetical representation 
  */
-string baudotEncoding::decode(string* input, int size)
+void baudotEncoding::decode(const std::vector<std::string>& input, std::string& const out)
 {
-	string decoded = "";
-	for (int i = 0, counti = size; i < counti; i++)
+	for (int i = 0, counti = input.size(); i < counti; ++i)
 	{		
-		decoded += decoding[input[i]];
+		out += decoding[input[i]];
 	}
-	return decoded;
 }

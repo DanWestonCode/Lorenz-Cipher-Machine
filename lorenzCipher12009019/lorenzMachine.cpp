@@ -5,27 +5,31 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-
-using namespace std;
+#include <vector>
 
 lorenzMachine::lorenzMachine() 
 {
 	// read pinsettings file
-	ifstream infile;
+	std::ifstream infile;
 	infile.open("pinsettings.dat");
 	getline(infile, pinSettings);	
 	infile.close();
 
 	// setup the machine wheels 
-	configureWheel(psi, new int[5]{43,47,51,53,59}, 5);
-	configureWheel(mu, new int[2]{37, 61}, 2);
-	configureWheel(chi, new int[5]{ 41,31,29,26,23}, 5);
+	int psiPins[5]{ 43,47,51,53,59 };
+	int muPins[2]{ 37, 61 };
+	int chiPins[5]{ 41,31,29,26,23 };
+
+	configureWheel(psi, psiPins, 5);
+	configureWheel(mu, muPins, 2);
+	configureWheel(chi, chiPins, 5);
 
 	encoding = new baudotEncoding();
 }
 
 lorenzMachine::~lorenzMachine()
 {
+	delete encoding;
 }
 
 /**
@@ -33,11 +37,12 @@ lorenzMachine::~lorenzMachine()
  */
 void lorenzMachine::configureWheel(lorenzWheel wheel[], int wheelSize[], int size)
 {
+	
 	// iterate over each wheel in this section
 	for (int i = 0, counti = size; i < counti; i++)
 	{
 		// setup 
-		string pins = pinSettings.substr(fileOffset, wheelSize[i]);
+		std::string pins = pinSettings.substr(fileOffset, wheelSize[i]);
 		fileOffset += wheelSize[i];
 		wheel[i] = *new lorenzWheel(pins);
 	}
@@ -46,7 +51,7 @@ void lorenzMachine::configureWheel(lorenzWheel wheel[], int wheelSize[], int siz
 /**
  * Encyrpts passed in message using the Lorenz machine algiorithm
  */
-string* lorenzMachine::encrypt(string* input, int length)
+void lorenzMachine::encrypt(const std::vector<std::string>& in, std::vector<std::string>& out)
 {
 	// reset all the wheels
 	for (int i = 0, counti = 5; i < counti; i++)
@@ -58,34 +63,27 @@ string* lorenzMachine::encrypt(string* input, int length)
 	mu[1].reset();
 
 	int fiveBitKey[5];	
-	string tempLetter, push;
-
-	string* encryptedMessage;
-	encryptedMessage = new string[length];
+	std::string tempLetter, push;
 	
-	for (int i = 0, counti = length; i < counti; i++) 
+	for (int i = 0, counti = in.size(); i < counti; ++i) 
 	{
-
+		out.push_back("");
 		// XOR the current psi and chi wheels for 5 bit key
 		for (int y = 0, county = 5; y < county; y++)
 		{
 			fiveBitKey[y] = psi[y].current() ^ chi[y].current();
 		}
 
-		string encryted = "";
-
 		// XOR the generated 5 bit key with the current encoded character 
-		for (int y = 0, county = 5; y < county; y++)
+		for (int y = 0, county = 5; y < county; ++y)
 		{
-			char c = input[i][y] ^ fiveBitKey[y];
+			char c = in[i][y] ^ fiveBitKey[y];
 			// avoid null
 			if (c != 0)
 			{
-				encryted += c;
+				out[i] += c;
 			}
 		}
-
-		encryptedMessage[i] = encryted;
 
 		// Wheel rotations
 		for (int y = 0, county = 5; y < county; y++)
@@ -109,14 +107,20 @@ string* lorenzMachine::encrypt(string* input, int length)
 		// m61 is always rotated
 		mu[0].rotate();
 	}
-
-	return encryptedMessage;
 }
 
 /**
  * Process and output the input message through the lorenz machine
  */
-void lorenzMachine::process(string in)
+void lorenzMachine::process(const std::string& in)
 {
-	cout << "Output: \"" << encoding->decode(encrypt(encoding->encode(in), in.length()), in.length()) << "\"" << endl;
+	std::vector<std::string> encoded;
+	std::vector<std::string> encrypted;
+	std::string decoded = "";
+
+	encoding->encode(in, encoded);
+	encrypt(encoded, encrypted);
+	encoding->decode(encrypted, decoded);
+
+	std::cout << "Output: \"" << decoded << "\"" << std::endl;
 }

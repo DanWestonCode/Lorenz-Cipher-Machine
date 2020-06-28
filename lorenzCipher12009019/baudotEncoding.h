@@ -1,10 +1,8 @@
 #ifndef _baudotEncoding_H_
 #define _baudotEncoding_H_
-
+#include "stdafx.h"
 #include <string>
 #include <map>
-
-using namespace std;
 class baudotEncoding
 {
 public:
@@ -13,14 +11,14 @@ public:
 	~baudotEncoding();
 
 	// convert ascii into 5bit baudot
-	string* encode(string);
+	void encode(const std::string& in, std::vector<std::string>&);
 
 	// convert 5bit baudot into ascii
-	string decode(string*, int size);
+	void decode(const std::vector<std::string>& in, std::string& out);
 	
 protected:
-	map<char, string> encoding;	
-	map<string, char> decoding;
+	std::map<char, std::string> encoding;	
+	std::map<std::string, char> decoding;
 };
 
 
